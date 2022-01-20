@@ -1,5 +1,7 @@
 # CYFRAM
 
+*converted to 18-bit addressing, support for CY15X102QN (2Mbit chip)
+
 ### Cypress F-RAM Master Library for Arduino
 
 **F-RAMs** (*Ferroelectric RAMs*) are *nonvolatile RAMs* with very high endurance (exceeding from 10^12 to 10^14 up to 10^16 read/write cycles **per byte**. F-RAMs store in byte-mode unlike block-mode of flash memories).
