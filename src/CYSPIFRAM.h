@@ -18,10 +18,10 @@ extern "C" {
 #include <stdint.h>
 
 // Arduino IO Assignment for SPI
-#define SI      11 //MOSI
-#define SO      12 //MISO
-#define SCK     13 //sck
-#define CS      10 //ss
+#define SI      10 //MOSI
+#define SO      9 //MISO
+#define SCK     8 //sck
+#define CS      3 //ss
 
 // SPI F-RAM Opcodes
 #define WREN  0x06   // Write Enable Opcode
@@ -33,8 +33,13 @@ extern "C" {
 
 // address masks
 #define ADDR_MSB_MASK   (uint16_t)0xFF00
-#define ADDR_LSB_MASK   (uint16_t)0x00FF
 #define MSB_ADDR_BYTE(addr)   ((uint8_t)((addr & ADDR_MSB_MASK)>>8))
+
+#define ADDR_MSB_MASK1   (uint16_t)0x3FFFF
+#define ADDR_MSB_MASK2   (uint16_t)0x0FF00
+#define ADDR_LSB_MASK    (uint16_t)0x000FF
+#define MSB_ADDR_BYTE1(addr)   ((uint8_t)((addr & ADDR_MSB_MASK1)>>10))
+#define MSB_ADDR_BYTE2(addr)   ((uint8_t)((addr & ADDR_MSB_MASK2)>>8))
 #define LSB_ADDR_BYTE(addr)   ((uint8_t)(addr & ADDR_LSB_MASK))
 
 #define NULL_PTR         ((uint8_t*) 0u)

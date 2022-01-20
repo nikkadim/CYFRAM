@@ -19,13 +19,15 @@
 //--------------------------------------------------------------------------------------
 void FRAM_SPI_Init()
 {
-    // Initialize SPI
-    SPI.begin();
+   
 
     // set the CS as an output:
     pinMode(CS, OUTPUT);
 
     digitalWrite(CS,HIGH); //Disable Chip
+ // Initialize SPI
+    SPI.begin();
+    SPI.setDataMode (SPI_MODE3);
 }
 
 //--------------------------------------------------------------------------------------
@@ -46,7 +48,8 @@ void FRAM_SPI_Write(uint32_t FRAM_address, uint8_t FRAM_data)
   // F-RAM WRITE OPERATION
   digitalWrite(CS,LOW);                      //chip select
   SPI.transfer(WRITE);                       //transmit write opcode
-  SPI.transfer(MSB_ADDR_BYTE(FRAM_address));  //send MSByte address first
+  SPI.transfer(MSB_ADDR_BYTE1(FRAM_address));  //send MSByte address first
+  SPI.transfer(MSB_ADDR_BYTE2(FRAM_address));  //send MSByte address first
   SPI.transfer(LSB_ADDR_BYTE(FRAM_address));  //send LSByte address
   SPI.transfer((uint8_t)(FRAM_data));        //send 1 byte data
   digitalWrite(CS,HIGH);                     //release chip, signal end of transfer
@@ -68,7 +71,8 @@ uint8_t FRAM_SPI_Read(uint32_t FRAM_address)
 
   digitalWrite(CS,LOW);                     //chip select
   SPI.transfer(READ);                       //transmit read opcode
-  SPI.transfer(MSB_ADDR_BYTE(FRAM_address));  //send MSByte address first
+  SPI.transfer(MSB_ADDR_BYTE1(FRAM_address));  //send MSByte address first
+  SPI.transfer(MSB_ADDR_BYTE2(FRAM_address));  //send MSByte address first
   SPI.transfer(LSB_ADDR_BYTE(FRAM_address));  //send LSByte address
   data = SPI.transfer(0xFF);                //get data byte from F-RAM
   digitalWrite(CS,HIGH);                    //release chip, signal end of transfer
@@ -101,7 +105,8 @@ void FRAM_SPI_BurstWrite(uint32_t FRAM_address, uint8_t * FRAM_wr_data_ptr, uint
   // F-RAM WRITE OPERATION
   digitalWrite(CS,LOW);                   //chip select
   SPI.transfer(WRITE);                    //transmit write opcode
-  SPI.transfer(MSB_ADDR_BYTE(FRAM_address));  //send MSByte address first
+  SPI.transfer(MSB_ADDR_BYTE1(FRAM_address));  //send MSByte address first
+  SPI.transfer(MSB_ADDR_BYTE2(FRAM_address));  //send MSByte address first
   SPI.transfer(LSB_ADDR_BYTE(FRAM_address));  //send LSByte address
 
   // Data byte transmission
@@ -133,7 +138,8 @@ void FRAM_SPI_BurstRead(uint32_t FRAM_address, uint8_t * FRAM_rd_data_ptr, uint3
 
   digitalWrite(CS,LOW);                     //chip select
   SPI.transfer(READ);                       //transmit read opcode
-  SPI.transfer(MSB_ADDR_BYTE(FRAM_address));  //send MSByte address first
+  SPI.transfer(MSB_ADDR_BYTE1(FRAM_address));  //send MSByte address first
+  SPI.transfer(MSB_ADDR_BYTE2(FRAM_address));  //send MSByte address first
   SPI.transfer(LSB_ADDR_BYTE(FRAM_address));  //send LSByte address
   
   for(i=0;i<total_count;i++)
